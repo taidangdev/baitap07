@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+<div layout:fragment="content" class="max-w-3xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+            <i class="fas fa-folder-open text-blue-600 mr-3"></i>
+            <span th:text="${category.id == null} ? 'Thêm Category' : 'Sửa Category'"></span>
+        </h1>
+        <p class="mt-2 text-sm text-gray-600">Điền thông tin chi tiết cho danh mục</p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="card">
+        <div class="card-body">
+<form th:action="${category.id == null} ? @{/categories/save} : @{/categories/update/{id}(id=${category.id})}" th:object="${category}" method="post">
+                <input type="hidden" th:if="${category.id}" th:field="*{id}"/>
+
+                <div class="form-group">
+                    <label class="form-label" for="name">Tên danh mục <span class="text-red-500">*</span></label>
+                    <input id="name" th:field="*{name}" required maxlength="100" class="form-input" placeholder="VD: Điện thoại, Laptop"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">Mô tả</label>
+                    <textarea id="description" th:field="*{description}" maxlength="500" class="form-input form-textarea" placeholder="Mô tả ngắn gọn về danh mục"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-group">
+                        <label class="form-label" for="icon">Icon (URL)</label>
+                        <input id="icon" th:field="*{icon}" maxlength="255" class="form-input" placeholder="VD: /images/icon-phone.png hoặc URL đầy đủ"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="userId">User ID <span class="text-red-500">*</span></label>
+                        <input id="userId" type="number" th:field="*{userId}" required class="form-input" placeholder="VD: 1"/>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end space-x-3 mt-6">
+                    <a th:href="@{/categories}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Hủy bỏ
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save mr-2"></i>
+                        Lưu Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+<div layout:fragment="content" class="max-w-7xl mx-auto py-6">
+    <!-- Hero Section -->
+    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center">
+            <i class="fas fa-store text-blue-600 mr-4"></i>
+            Hệ thống quản lý StarShop
+        </h1>
+        <p class="text-lg text-gray-600 text-center">
+            Chào mừng bạn đến với hệ thống quản lý danh mục và sản phẩm
+        </p>
+    </div>
+
+    <!-- Navigation Cards -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Category Management Card -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-folder-open text-blue-500 text-3xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-900">Quản lý Danh mục</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Quản lý danh mục sản phẩm với giao diện thông thường
+                </p>
+                <a th:href="@{/categories}" 
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-arrow-right mr-2"></i>
+                    Vào trang quản lý
+                </a>
+            </div>
+        </div>
+
+        <!-- AJAX Category Management Card -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-sync-alt text-green-500 text-3xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-900">Quản lý AJAX</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Quản lý danh mục với AJAX, không cần tải lại trang
+                </p>
+                <a th:href="@{/categories/ajax}" 
+                   class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-rocket mr-2"></i>
+                    Vào trang AJAX
+                </a>
+            </div>
+        </div>
+
+        <!-- Product Management Card -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-box text-purple-500 text-3xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-900">Quản lý Sản phẩm</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Quản lý sản phẩm với hình ảnh và thông tin chi tiết
+                </p>
+                <button disabled
+                   class="inline-flex items-center px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed">
+                    <i class="fas fa-lock mr-2"></i>
+                    Đang phát triển
+                </button>
+            </div>
+        </div>
+
+        <!-- API Documentation Card -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-code text-orange-500 text-3xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-900">API Documentation</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Xem tài liệu RESTful API với Swagger UI
+                </p>
+                <a href="/swagger-ui.html" target="_blank"
+                   class="inline-flex items-center px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                    <i class="fas fa-external-link-alt mr-2"></i>
+                    Mở Swagger UI
+                </a>
+            </div>
+        </div>
+
+        <!-- Statistics Card -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-chart-bar text-indigo-500 text-3xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-900">Thống kê</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Xem báo cáo và thống kê hệ thống
+                </p>
+                <button disabled
+                   class="inline-flex items-center px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed">
+                    <i class="fas fa-lock mr-2"></i>
+                    Đang phát triển
+                </button>
+            </div>
+        </div>
+
+        <!-- Settings Card -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-cog text-gray-500 text-3xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-900">Cài đặt</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Cấu hình hệ thống và người dùng
+                </p>
+                <button disabled
+                   class="inline-flex items-center px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed">
+                    <i class="fas fa-lock mr-2"></i>
+                    Đang phát triển
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+            <i class="fas fa-star text-yellow-500 mr-2"></i>
+            Tính năng hệ thống
+        </h2>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold">CRUD đầy đủ</h3>
+                    <p class="text-gray-600 text-sm">Thêm, xem, sửa, xóa danh mục và sản phẩm</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold">RESTful API</h3>
+                    <p class="text-gray-600 text-sm">API chuẩn RESTful với JSON response</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold">AJAX Interface</h3>
+                    <p class="text-gray-600 text-sm">Giao diện AJAX không cần tải lại trang</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold">File Upload</h3>
+                    <p class="text-gray-600 text-sm">Upload hình ảnh cho sản phẩm và danh mục</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold">Swagger Documentation</h3>
+                    <p class="text-gray-600 text-sm">Tài liệu API tự động với Swagger</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold">Responsive Design</h3>
+                    <p class="text-gray-600 text-sm">Giao diện thân thiện với mọi thiết bị</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

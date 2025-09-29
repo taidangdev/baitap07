@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+<div layout:fragment="content" class="space-y-6">
+    
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                <i class="fas fa-th-large text-blue-600 mr-3"></i>
+                Danh sách Category
+            </h1>
+            <p class="mt-2 text-sm text-gray-600">
+                Quản lý và tổ chức các danh mục sản phẩm của bạn
+            </p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+            <a th:href="@{/categories/new}" 
+               class="btn btn-primary btn-lg">
+                <i class="fas fa-plus mr-2"></i>
+                Thêm Category Mới
+            </a>
+        </div>
+    </div>
+    
+    <!-- Search and Filters Card -->
+    <div class="search-form">
+        <form th:action="@{/categories}" method="get" id="search-form" class="space-y-4">
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label" for="search-input">
+                        <i class="fas fa-search mr-1"></i>
+                        Tìm kiếm
+                    </label>
+                    <div class="relative">
+                        <input type="text" 
+                               name="keyword" 
+                               id="search-input"
+                               placeholder="Nhập tên hoặc mô tả danh mục..." 
+                               th:value="${keyword}"
+                               class="form-input pr-10">
+                        <button type="button" 
+                                id="clear-search"
+                                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                                th:if="${keyword != null and !keyword.isEmpty()}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-col-auto" style="min-width: 120px;">
+                    <label class="form-label">
+                        <i class="fas fa-list-ol mr-1"></i>
+                        Số lượng
+                    </label>
+                    <select name="size" class="form-input form-select">
+                        <option value="5" th:selected="${size == 5}">5 mục</option>
+                        <option value="10" th:selected="${size == 10}">10 mục</option>
+                        <option value="20" th:selected="${size == 20}">20 mục</option>
+                        <option value="50" th:selected="${size == 50}">50 mục</option>
+                    </select>
+                </div>
+                
+                <div class="form-col-auto">
+                    <label class="form-label text-transparent">.</label>
+                    <button type="submit" class="btn btn-primary" data-loading>
+                        <i class="fas fa-search mr-2"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Results Summary -->
+    <div class="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
+        <div class="flex items-center">
+            <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+            <span class="text-blue-800">
+                Tìm thấy <strong th:text="${categoryPage.totalElements}">0</strong> kết quả
+                <span th:if="${keyword != null and !keyword.isEmpty()}">
+                    cho từ khóa "<span th:text="${keyword}" class="font-medium"></span>"
+                </span>
+            </span>
+        </div>
+        <div class="text-sm text-blue-600" th:if="${categoryPage.totalElements > 0}">
+            Trang <span th:text="${categoryPage.number + 1}">1</span> / <span th:text="${categoryPage.totalPages}">1</span>
+        </div>
+    </div>
+    
+    <!-- Categories Grid/Table -->
+    <div th:if="${categoryPage.totalElements > 0}" class="space-y-6">
+        
+        <!-- Desktop Table View -->
+        <div class="hidden lg:block table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="w-16">
+                            <i class="fas fa-hashtag mr-1"></i>
+                            ID
+                        </th>
+                        <th>
+                            <i class="fas fa-tag mr-1"></i>
+                            Tên danh mục
+                        </th>
+                        <th>
+                            <i class="fas fa-align-left mr-1"></i>
+                            Mô tả
+                        </th>
+                        <th class="w-20">
+                            <i class="fas fa-image mr-1"></i>
+                            Icon
+                        </th>
+                        <th class="w-20">
+                            <i class="fas fa-user mr-1"></i>
+                            User ID
+                        </th>
+                        <th class="w-32">
+                            <i class="fas fa-cog mr-1"></i>
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="c : ${categoryPage.content}" class="hover:bg-gray-50 transition-colors duration-200">
+                        <td>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800" th:text="${c.id}">1</span>
+                        </td>
+                        <td>
+                            <div class="font-medium text-gray-900" th:text="${c.name}">Category Name</div>
+                        </td>
+                        <td>
+                            <div class="text-gray-600 text-sm max-w-xs text-truncate" th:text="${c.description}">Description</div>
+                        </td>
+                        <td>
+                            <div th:if="${c.icon}" class="flex justify-center">
+                                <img th:src="@{${c.icon}}" alt="Icon" class="h-8 w-8 rounded object-cover border border-gray-200"/>
+                            </div>
+                            <div th:unless="${c.icon}" class="flex justify-center">
+                                <div class="h-8 w-8 bg-gray-100 rounded flex items-center justify-center">
+                                    <i class="fas fa-image text-gray-400 text-sm"></i>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="text-sm text-gray-600" th:text="${c.userId}">1</span>
+                        </td>
+                        <td>
+                            <div class="flex space-x-2">
+                                <a th:href="@{'/categories/edit/' + ${c.id}}" 
+                                   class="btn btn-sm btn-secondary"
+                                   data-tooltip="Chỉnh sửa">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{'/categories/delete/' + ${c.id}}" 
+                                   class="delete-confirm btn btn-sm btn-danger"
+                                   th:data-name="${c.name}"
+                                   data-tooltip="Xóa">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Mobile Card View -->
+        <div class="lg:hidden space-y-4">
+            <div th:each="c : ${categoryPage.content}" class="card hover:shadow-md transition-shadow duration-200">
+                <div class="card-body">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-3">
+                            <div th:if="${c.icon}">
+                                <img th:src="@{${c.icon}}" alt="Icon" class="h-12 w-12 rounded-lg object-cover border border-gray-200"/>
+                            </div>
+                            <div th:unless="${c.icon}">
+                                <div class="h-12 w-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-image text-gray-400"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-lg font-medium text-gray-900" th:text="${c.name}">Category Name</h3>
+                                <p class="text-sm text-gray-600 mt-1" th:text="${c.description}">Description</p>
+                                <div class="flex items-center space-x-4 mt-2">
+                                    <span class="inline-flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-hashtag mr-1"></i>
+                                        ID: <span th:text="${c.id}">1</span>
+                                    </span>
+                                    <span class="inline-flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-user mr-1"></i>
+                                        User: <span th:text="${c.userId}">1</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <a th:href="@{'/categories/edit/' + ${c.id}}" class="btn btn-sm btn-secondary">
+                                <i class="fas fa-edit mr-1"></i>
+                                Sửa
+                            </a>
+                            <a th:href="@{'/categories/delete/' + ${c.id}}" 
+                               class="delete-confirm btn btn-sm btn-danger"
+                               th:data-name="${c.name}">
+                                <i class="fas fa-trash mr-1"></i>
+                                Xóa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Empty State -->
+    <div th:if="${categoryPage.totalElements == 0}" class="text-center py-12">
+        <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
+            <i class="fas fa-inbox text-6xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">
+            Không tìm thấy category nào
+        </h3>
+        <p class="text-gray-600 mb-6">
+            <span th:if="${keyword != null and !keyword.isEmpty()}">
+                Không có kết quả phù hợp với từ khóa "<span th:text="${keyword}" class="font-medium"></span>"
+            </span>
+            <span th:unless="${keyword != null and !keyword.isEmpty()}">
+                Hãy bắt đầu bằng cách tạo category đầu tiên của bạn
+            </span>
+        </p>
+        <div class="space-x-4">
+            <a th:href="@{/categories/new}" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>
+                Tạo Category Đầu Tiên
+            </a>
+            <a th:href="@{/categories}" th:if="${keyword != null and !keyword.isEmpty()}" class="btn btn-secondary">
+                <i class="fas fa-times mr-2"></i>
+                Xóa bộ lọc
+            </a>
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div th:if="${categoryPage.totalPages > 1}" class="pagination">
+        <!-- Previous page -->
+        <a th:if="${!categoryPage.first}" 
+           th:href="@{/categories(page=${categoryPage.number-1},size=${categoryPage.size},keyword=${keyword})}"
+           class="flex items-center">
+            <i class="fas fa-chevron-left mr-1"></i>
+            Trước
+        </a>
+        
+        <!-- Page numbers -->
+        <span th:each="i : ${#numbers.sequence(0, categoryPage.totalPages-1)}">
+            <a th:if="${i != categoryPage.number}"
+               th:href="@{/categories(page=${i},size=${categoryPage.size},keyword=${keyword})}"
+               th:text="${i+1}">1</a>
+            <span th:if="${i == categoryPage.number}" 
+                  class="active" 
+                  th:text="${i+1}">1</span>
+        </span>
+        
+        <!-- Next page -->
+        <a th:if="${!categoryPage.last}" 
+           th:href="@{/categories(page=${categoryPage.number+1},size=${categoryPage.size},keyword=${keyword})}"
+           class="flex items-center">
+            Sau
+            <i class="fas fa-chevron-right ml-1"></i>
+        </a>
+    </div>
+    
+</div>
+</body>
+</html>
